@@ -1,0 +1,134 @@
+{
+  "version": "1.0",
+  "descripcion": "Reglas de seguridad para controlador SDN — Red Wi-Fi Pública Simulada",
+  "reglas": [
+    {
+      "ataque_cibernetico": "Suplantación (Spoofing)",
+      "nivel_de_riesgo": "ALTO",
+      "soluciones_comunmente_usadas": [
+        {
+          "solucion": "Filtros para examinar los encabezados de los paquetes IP entrantes y salientes de la red",
+          "accion_controlador": "Inspeccionar encabezados ARP e IP de cada paquete y descartar los que presenten inconsistencias entre IP y MAC registrada"
+        },
+        {
+          "solucion": "Verificación para que las conexiones se mantengan activas después de hacer un control",
+          "accion_controlador": "Validar que los flujos activos correspondan a sesiones previamente autorizadas y terminar los que no pasen la verificación"
+        },
+        {
+          "solucion": "DNSSec o firmas digitales para brindar seguridad sobre los archivos, sus modificaciones y su origen",
+          "accion_controlador": "Bloquear respuestas DNS que no provengan del servidor DNS registrado en la tabla de confianza del controlador"
+        },
+        {
+          "solucion": "Cifrado a nivel IP para que los datos al moverse dentro de la red no puedan ser entendidos hasta llegar a su destino",
+          "accion_controlador": "Aislar el host que genere tráfico sin cifrado hacia destinos sensibles e impedir que reenvíe paquetes a otros nodos de la red"
+        }
+      ],
+      "factores_asociados_a_la_vulnerabilidad": [
+        {
+          "factor": "Error de configuración",
+          "descripcion": "Las credenciales por defecto o parámetros son inseguros, servicios innecesarios están activos dentro de la red sin restricciones de acceso adecuadas"
+        },
+        {
+          "factor": "Factor humano",
+          "descripcion": "Errores, negligencia o comportamientos previsibles de parte de los usuarios o administradores de la red"
+        },
+        {
+          "factor": "Validación de entrada",
+          "descripcion": "Consiste en revisar que todos los datos entrantes a la red cumplan con el formato, tipo, longitud y contenido esperado"
+        },
+        {
+          "factor": "Permisos, privilegios y/o control de acceso",
+          "descripcion": "Los usuarios descubren que pueden hacer uso de funciones restringidas y modificar parámetros para ver datos dentro de la red"
+        },
+        {
+          "factor": "Inseguridad en el diseño",
+          "descripcion": "Ocurre cuando la red o aplicaciones no cuentan con controles de seguridad desde su diseño de arquitectura"
+        }
+      ]
+    },
+    {
+      "ataque_cibernetico": "Ataque de intermediario o reproducción (MitM)",
+      "nivel_de_riesgo": "ALTO-CRÍTICO",
+      "soluciones_comunmente_usadas": [
+        {
+          "solucion": "Protocolos SSL y TLS para proteger los datos en tránsito contra tráfico malicioso o conexiones inseguras",
+          "accion_controlador": "Detectar flujos HTTP sin cifrado entre hosts y redirigirlos o bloquearlos si el destino requiere conexión segura"
+        },
+        {
+          "solucion": "EDR o seguridad en los endpoints mediante actualización de parches y software especializado en detección y respuesta",
+          "accion_controlador": "Aislar el host que presente comportamiento anómalo de reenvío de paquetes entre dos nodos y notificar el evento al log"
+        },
+        {
+          "solucion": "Cifrado de datos de extremo a extremo y uso de VPN para guardar la confidencialidad ante posibles intermediarios",
+          "accion_controlador": "Bloquear flujos entre dos hosts cuando un tercer nodo esté retransmitiendo ese tráfico sin ser el gateway registrado"
+        },
+        {
+          "solucion": "Autenticación multifactor (MFA) para requerir verificación extra en el acceso a cuentas",
+          "accion_controlador": "Denegar el acceso a recursos internos a hosts que no hayan completado el proceso de autenticación en el portal cautivo"
+        },
+        {
+          "solucion": "Evitar el uso de redes Wi-Fi públicas para transacciones con credenciales o información sensible",
+          "accion_controlador": "Bloquear tráfico hacia puertos sensibles (21, 23, 8080) desde hosts no autorizados y registrar el intento en el log"
+        }
+      ],
+      "factores_asociados_a_la_vulnerabilidad": [
+        {
+          "factor": "Error de configuración",
+          "descripcion": "Las credenciales por defecto o parámetros son inseguros, servicios innecesarios están activos dentro de la red sin restricciones de acceso adecuadas"
+        },
+        {
+          "factor": "Factor humano",
+          "descripcion": "Errores, negligencia o comportamientos previsibles de parte de los usuarios o administradores de la red"
+        },
+        {
+          "factor": "Permisos, privilegios y/o control de acceso",
+          "descripcion": "Los usuarios descubren que pueden hacer uso de funciones restringidas y modificar parámetros para ver datos dentro de la red"
+        },
+        {
+          "factor": "Inseguridad en el diseño",
+          "descripcion": "Ocurre cuando la red o aplicaciones no cuentan con controles de seguridad desde su diseño de arquitectura"
+        }
+      ]
+    },
+    {
+      "ataque_cibernetico": "Distribución de Malware",
+      "nivel_de_riesgo": "CRÍTICO",
+      "soluciones_comunmente_usadas": [
+        {
+          "solucion": "EDR o seguridad en los endpoints mediante actualización de parches y software especializado en detección y respuesta",
+          "accion_controlador": "Detectar el host que esté distribuyendo tráfico anómalo hacia múltiples nodos, aislar su conexión y registrar el evento en el log"
+        },
+        {
+          "solucion": "DNSSec o firmas digitales para brindar seguridad sobre los archivos, sus modificaciones y su origen",
+          "accion_controlador": "Bloquear transferencias de archivos desde hosts que estén suplantando la IP del servidor legítimo y aislar el nodo atacante"
+        }
+      ],
+      "factores_asociados_a_la_vulnerabilidad": [
+        {
+          "factor": "Salto de directorio",
+          "descripcion": "Permite que los atacantes accedan a archivos o directorios que no deberían ser accesibles, además de poder entrar a ubicaciones sensibles del sistema"
+        },
+        {
+          "factor": "Error de configuración",
+          "descripcion": "Las credenciales por defecto o parámetros son inseguros, servicios innecesarios están activos dentro de la red sin restricciones de acceso adecuadas"
+        },
+        {
+          "factor": "Factor humano",
+          "descripcion": "Errores, negligencia o comportamientos previsibles de parte de los usuarios o administradores de la red"
+        },
+        {
+          "factor": "Validación de entrada",
+          "descripcion": "Consiste en revisar que todos los datos entrantes a la red cumplan con el formato, tipo, longitud y contenido esperado"
+        },
+        {
+          "factor": "Permisos, privilegios y/o control de acceso",
+          "descripcion": "Los usuarios descubren que pueden hacer uso de funciones restringidas y modificar parámetros para ver datos dentro de la red"
+        },
+        {
+          "factor": "Inseguridad en el diseño",
+          "descripcion": "Ocurre cuando la red o aplicaciones no cuentan con controles de seguridad desde su diseño de arquitectura"
+        }
+      ]
+    }
+  ]
+}
